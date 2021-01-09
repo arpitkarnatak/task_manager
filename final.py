@@ -5,8 +5,6 @@ Kill_Process : 1 integer Parameter(n). Kills the Process with Process ID = n
 '''
 from tabulate import tabulate
 import psutil
-import time
-import sys
 
 
 def RAM_Usage():
