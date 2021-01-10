@@ -5,8 +5,12 @@ import speedtest
 def RAM_Usage():
     a= psutil.virtual_memory()
     Mem_Columns = ["Total Memory (in GB)","Available Memory (in GB)","Percentage Usage","Used Memory (in GB)"]
+    
+    ### psutil.virtual_memory() gives disk usage in bytes, so convert it to Gigabytes
     a = [[a[0]/1024**3,a[1]/1024**3,a[2],a[3]/1024**3]]
     print("\n\n")
+    
+    ## tabulate function to display data in a tabular format
     print(tabulate(a,headers=Mem_Columns,tablefmt='grid'))
     print("\n\n")
     
@@ -15,14 +19,19 @@ def Current_Processes(number):
     x = 0
     listOfProcess = []
     ProcessCols = ["Process ID","Process Name","Status","Memory Usage (in MBs)"]
+    
+    ### psutil.process_iter() gives the list of all processes
     for i in psutil.process_iter():
         listOfProcess.append([i.pid,i.name(),i.status(),i.memory_info()[0]/1024**2])
         
     for i in range(len(listOfProcess)):
         listOfProcess[i] = listOfProcess[i][::-1]
+    ## Sorting the processes by Memory Usage
     listOfProcess.sort(reverse=True)
     for i in range(len(listOfProcess)):
         listOfProcess[i] = listOfProcess[i][::-1]
+        
+    ## Displaying only the given number of processes
     listOfProcess = listOfProcess[:number]
     
     print("\n\n")
