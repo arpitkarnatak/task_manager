@@ -1,11 +1,6 @@
-'''
-RAM_Usage : 0 Parameters. Displays RAM USAGE
-Current_Processes : 1 integer Parameter(n). Shows n highest memory processes
-Kill_Process : 1 integer Parameter(n). Kills the Process with Process ID = n
-'''
 from tabulate import tabulate
 import psutil
-
+import speedtest 
 
 def RAM_Usage():
     a= psutil.virtual_memory()
@@ -35,19 +30,29 @@ def Current_Processes(number):
     print(tabulate(listOfProcess,headers=ProcessCols,tablefmt='grid'))
     print("\n\n")
     
+    
 def Kill_Process(PID):
     p = psutil.Process(PID)
-    print("\n\n{} is closed\n\n".format(p.name()))
     p.terminate()
 
+    
+def WiFi():
+    st = speedtest.Speedtest() 
+    data = [["Download Speed (in MBps)",st.download()/1024**2],["Upload Speed (in MBps)",st.upload()/1024**2]]
+    print("\n\n")
+    print("Internet Speed")
+    print("\n\n")
+    print(tabulate(data,tablefmt='grid'))
+    print("\n\n")
+
 def Main():
-    Codes = [[1,"Show RAM Usage"],[2,"Show Current Processes"],[3,"Kill Process by ProcessID"],[0,"Close Task Manager"]]
+    Codes = [[1,"Show RAM Usage"],[2,"Show Current Processes"],[3,"Kill Process by ProcessID"],[4,"Connection Details"],[0,"Close Task Manager"]]
     while True:
         print("\n\n")
         print(tabulate(Codes,headers=["Code","Function"],tablefmt='grid'))
         print("\n\n")
 
-        x = int(input("Enter the Code for desired operation\n\n"))
+        x = int(input())
         if x==1:
             RAM_Usage()
         if x==2:
@@ -56,6 +61,8 @@ def Main():
         if x==3:
             n = int(input("\n\nEnter Process ID of the Process to close\n\n"))
             Kill_Process(n)
+        if x==4:
+            WiFi()
         if x==0:
             break
             
